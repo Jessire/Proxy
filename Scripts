@@ -1,0 +1,27 @@
+hostname = license.pdfexpert.com, *.zymk.cn, *.xunjie*.com, p.du.163.com, *.tan8.com, api.591master.com, commerce-api.faceu.mobi, *.maoqilai.com, buy.itunes.apple.com, *.kuwo.cn,
+ api.polaxiong.com, api.polarr.co, *.adobe.*, sapi.beingfine.cn, sapi.beingfine.cn, baimiao.uzero.cn, *.xmind.*, *.arten.cn, *.videostarapp.com,  prod.api.shapr3d.com, rdp.duetdisplay.com,
+^https?:\/\/.*\.zymk\.cn\/app_api\/v\d\/(getuserinfo|purchase_chapters_coin)\/$ url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/zymk.js
+^https?:\/\/.*\.xunjie.*\.com\/api\/v\d\/* url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/xunjie.js
+^https://p\.du\.163\.com/readtime/info.json url reject
+^https:\/\/p\.du\.163\.com\/gain\/readtime\/info\.json url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/wywnds.js
+^http?:\/\/www\.tan8\.com\/codeindex\.php\?d\=(common\&c*|tan8\&c\=yuepu\&m*|tan8\&c\=myself\&m*) url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/tanqinba.js
+^http?:\/\/api\.591master\.com\:\d+\/.*\/uicommon\/getuser url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/sjyjgj.js
+^https?:\/\/commerce-api\.faceu\.mobi\/commerce\/.*\/subscription\/user_info* url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/qingyanxiangji.js
+^http?:\/\/pay_free\.maoqilai\.com\/get_user_info url response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/pzqz.js
+^https?:\/\/api\.(polaxiong\.com|polarr\.co)\/v\d\/payments\/appleiap\/receipts\/confirmation$ url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/polaris.js
+^https:\/\/.*\.adobe\..*\/mobile_profile\/nul\/v\d$ url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/photoshop.js
+^https?:\/\/sapi\.beingfine\.cn\/v\d\/LE_GetCourseEpisodes* url response-body locked":\d response-body locked":0
+^https?:\/\/sapi\.beingfine\.cn\/v\d\/UserLaunchAppReport* url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/lyst.js
+^https?:\/\/sapi\.beingfine\.cn\/v\d\/report\/launch* url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/bubeidanci.js
+^https?:\/\/baimiao\.uzero\.cn\/api\/v\d\.user\/appLaunchWithUser$ url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/baimiao.js
+https?:\/\/.*\.xmind\..*\/_res\/(devices|user_sub_status|profile\/) url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/XMind.js
+^http?:\/\/.*\.arten.cn\/login\/login url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/Wanliyingshi.js
+^https?:\/\/.*\.videostarapp\.com\/scripts\/subsNew\.php url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/VideoStar.js
+^https?:\/\/prod\.api\.shapr3d\.com\/user-management\/profile-with-device url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/Shapr3D.js
+^https:\/\/buy\.itunes\.apple\.com\/verifyReceipt url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/Picsew.js
+https:\/\/license\.pdfexpert\.com\/api\/1.0\/pdfexpert6\/subscription\/(check|refresh) url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/PDFExpert.js
+https:\/\/license\.pdfexpert\.com\/api\/1.0\/documents\/subscription\/(check|refresh) url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/Documents.js
+^https?:\/\/rdp\.duetdisplay\.com\/v\d\/users\/validateReceipt url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/DuetPro.js
+^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/Gear.js
+^https?:\/\/musicpay\.kuwo\.cn\/music\.pay\?uid\=\d+ url 302 http://musicpay.kuwo.cn/music.pay?uid=2
+^https?:\/\/vip1\.kuwo\.cn\/(vip\/v\d\/user\/vip|vip\/spi/mservice) url script-response-body https://raw.githubusercontent.com/LTribeSkyx/Script/master/Kuwo.js
