@@ -6,7 +6,7 @@ let config = {
     darksky_api: "6f8873ffbe3d75e187c08f9313b3c9a8", //从https://darksky.net/dev/ 上申请key填入即可
     aqicn_api: "171792822a511f23a221af90eecfada9cff94c52", //从http://aqicn.org/data-platform/token/#/ 上申请key填入即可
       huweather_apiKey:      "54387d1cbc524b51ac06b1c0461e2552", //和风天气APIkey,可自行前往 https://dev.heweather.com/ 进行获取
-    lat_lon: "30.19,120.22", //请填写经纬度,直接从谷歌地图中获取即可
+    lat_lon: "30.32,120.31", //请填写经纬度,直接从谷歌地图中获取即可
     lang: "zh", //语言,随意切换为您想要的语言哦(zh/zh-tw/ja/en/fr/...)
     log: 0, //调试日志,0为不开启,1为开启,2为开启精简日志
     timeout: 0, //超时时间,单位毫秒(1000毫秒=1秒),一般不推荐修改[为0则不限制超时时间]
