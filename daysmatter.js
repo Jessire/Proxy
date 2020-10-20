@@ -142,11 +142,7 @@ if (isQuantumultX) {
         }
     }
 }
-if (isSurge) {
-    $notify = function (title, subTitle, detail) {
-        $notification.post(title, subTitle, detail);
-    }
-}
+
 // #endregion
 
 /*
