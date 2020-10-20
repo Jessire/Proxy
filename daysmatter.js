@@ -226,7 +226,7 @@ function day() {
         content += dayarr[i][0] + "• " + u + "\n"
     }
     console.log(content);
-    $notification.post('倒数日', "", content)    
+    $notification('倒数日', "", content)    
 }
 
 
