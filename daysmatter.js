@@ -135,8 +135,18 @@ if (isSurge) {
 // #endregion
 
 // #region 消息通知
-
-
+if (isQuantumultX) {
+    $notification = {
+        post: (title, subTitle, detail) => {
+            $notify(title, subTitle, detail);
+        }
+    }
+}
+if (isSurge) {
+    $notify = function (title, subTitle, detail) {
+        $notification.post(title, subTitle, detail);
+    }
+}
 // #endregion
 
 /*
@@ -216,7 +226,8 @@ function day() {
         content += dayarr[i][0] + "• " + u + "\n"
     }
     console.log(content);
-     
+    $notify('倒数日', "", content)    
+
 }
 
 
