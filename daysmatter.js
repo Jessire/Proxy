@@ -135,13 +135,7 @@ if (isSurge) {
 // #endregion
 
 // #region 消息通知
-if (isQuantumultX) {
-    $notification = {
-        post: (title, subTitle, detail) => {
-            $notify(title, subTitle, detail);
-        }
-    }
-}
+
 
 // #endregion
 
