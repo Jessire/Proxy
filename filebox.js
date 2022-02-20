@@ -1,7 +1,7 @@
 [rewrite_local]
 # ～ filebox解鎖會員權限（2022-02-18）
-^https?:\/\/api\.revenuecat\.com\/v\d\/subscribers\/(\$RCAnonymousID\%)?(\w)+$ url script-echo-response https://raw.githubusercontent.com/Jessire/QuantumultX/master/Crack/filebox.js
-^https?:\/\/api\.revenuecat\.com\/v\d\/receipts$ url script-echo-response https://raw.githubusercontent.com/Jessire/QuantumultX/master/Crack/filebox.js
+^https?:\/\/api\.revenuecat\.com\/v\d\/subscribers\/(\$RCAnonymousID\%)?(\w)+$ url script-echo-response https://raw.githubusercontent.com/Jessire/QuantumultX/master/filebox.js
+^https?:\/\/api\.revenuecat\.com\/v\d\/receipts$ url script-echo-response https://raw.githubusercontent.com/Jessire/QuantumultX/master/filebox.js
 [mitm] 
 hostname=api.revenuecat.com
 ***********************************/
