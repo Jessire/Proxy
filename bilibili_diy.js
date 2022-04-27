@@ -84,7 +84,7 @@ if (magicJS.read(blackKey)) {
       case /^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/tab/.test(magicJS.request.url):
         try {
           // 442 开始为概念版id 适配港澳台代理模式
-          const tabList = new Set([40, 442, 99, 100, 101, 554, 556]);
+          const tabList = new Set([477, 442, 99, 100, 101, 554, 556]);
           // 107 概念版游戏中心，获取修改为Story模式
           const topList = new Set([176, 107]);
           // 102 开始为概念版id
@@ -130,7 +130,7 @@ if (magicJS.read(blackKey)) {
           let obj = JSON.parse(magicJS.response.body);
           // 622 为会员购中心, 425 开始为概念版id
           //const itemList = new Set([396, 397, 398, 399, 171, 402, 404, 544, 407, 410]);
-          const itemList = new Set([396, 397, 398, 399, 402, 407, 410]);
+          const itemList = new Set([494, 495, 497, 498]);
           obj["data"]["sections_v2"].forEach((element, index) => {
             element["items"].forEach((e) => {
               if (e["id"] === 622) {
