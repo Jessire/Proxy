@@ -1,7 +1,7 @@
 payload:
-  - DOMAIN-Keyword,odysseyplus
+  - DOMAIN-KEYWORD,odysseyplus
   - DOMAIN-SUFFIX,ju.dog
-  - DOMAIN-Keyword,emby
+  - DOMAIN-KEYWORD,emby
   - DOMAIN-SUFFIX,789.123456.al
   - DOMAIN-SUFFIX,film.goodisp.org
  
