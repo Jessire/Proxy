@@ -89,12 +89,6 @@ http-response ^https?:\/\/ssl-api\.itranslateapp\.com\/accounts\/.+\/(subscripti
 http-response ^https?:\/\/(vas|account|drive)\.wps\.cn\/(query\/api\/.+\/list_purchase_info|api\/(v\d\/spaces|users\/.+\/overview)) script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/WPS.js, requires-body=true, tag=WPS
 
 #************************************#
-# 考途大学搜题
-# hostname = api-service.tutusouti.com 
-http-response ^https:\/\/api-service\.tutusouti\.com\/appServiceApi\/(vip\/newUserPayVipData|video\/videoDetail) script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/kaotu.js, requires-body=true, tag=考途大学搜题
-
-
-#************************************#
 # 牛津高阶词典第十版
 # hostname = oxfordx.cp.com.cn
 http-response ^https:\/\/oxfordx\.cp\.com\.cn\/api\/pay\/apple_notify script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/niujin10.js, requires-body=true, tag=牛津高阶词典
@@ -103,4 +97,4 @@ http-response ^https:\/\/oxfordx\.cp\.com\.cn\/api\/pay\/apple_notify script-pat
 
 #************************************#
 [MITM]
-hostname = oxfordx.cp.com.cn, scibug.com,*.aliyundrive.com, *.alipan.com,*.cyapi.cn, *.caiyunapp.com, adx.sogaha.cn,restore-access.indream.app,spclient.wg.spotify.com,service.ilovepdf.com,*.xiuxiu.meitu.com, api.posters.meitu.com, api-*.meitu.com,*.xiangha.com,drive*.quark.cn,*.wps.cn,ssl-api.itranslateapp.com,api-service.tutusouti.com,buy.itunes.apple.com, api.revenuecat.com
+hostname = oxfordx.cp.com.cn, scibug.com,*.aliyundrive.com, *.alipan.com,*.cyapi.cn, *.caiyunapp.com, adx.sogaha.cn,restore-access.indream.app,spclient.wg.spotify.com,service.ilovepdf.com,*.xiuxiu.meitu.com, api.posters.meitu.com, api-*.meitu.com,*.xiangha.com,drive*.quark.cn,*.wps.cn,ssl-api.itranslateapp.com,buy.itunes.apple.com, api.revenuecat.com
