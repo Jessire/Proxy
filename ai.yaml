@@ -6,3 +6,4 @@ payload:
   - DOMAIN-SUFFIX,openaiapi-site.azureedge.net
   - DOMAIN-SUFFIX,bing.com
   - DOMAIN-SUFFIX,bard.google.com
+  - DOMAIN-SUFFIX,claude.ai
