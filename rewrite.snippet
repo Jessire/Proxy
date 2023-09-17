@@ -1,0 +1,16 @@
+#Uniqlo小程序
+^https:\/\/267e3dd15a\.234f6ce965\.com\/api\/senddata url reject-dict
+^https:\/\/event\.uniqlo\.cn\/uniqlo_new_cms\/api\/welcome\/index url reject-dict
+^https:\/\/event\.uniqlo\.cn\/uniqlo_new_cms\/api\/homefloatinglayer\/better url reject-dict
+^https:\/\/event\.uniqlo\.cn\/uniqlo_new_cms\/api\/watch\/getButton url reject-dict
+#一起考教师
+^https:\/\/api\.17kjs\.com\/meta\/ads_targets url reject
+#B站换肤
+^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\? url script-response-body https://raw.githubusercontent.com/kokoryh/Script/master/js/bili-suit-diy.js
+#粉笔(bug)
+^https:\/\/tiku\.fenbi\.com\/activity\/app\/launcher\? url script-response-body https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/fenbi.js
+# 招行掌上生活 (需卸载重装)
+开屏广告 az1mbasecc.bas.cmbchina.com
+^https?:\/\/az1mbasecc\.bas\.cmbchina\.com\/Edge\/api\/mlife\.clientface\.clientservice\.api\.advertiseService\/preCacheAdvertiseSec url reject
+设置栏目内广告 intellicc.bas.cmbchina.com
+^https?:\/\/intellicc\.bas\.cmbchina\.com\/Edge\/api\/mlife\.intelli\.render\.api\.render\/getDynamicDataSec url reject
