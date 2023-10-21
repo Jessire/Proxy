@@ -41,7 +41,7 @@ http-response ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.sm\.order\.service\.mem
 # hostname = *.cyapi.cn, *.caiyunapp.com, adx.sogaha.cn
 ^https:\/\/biz\.cyapi\.cn\/(p\/v1\/vip_info|v2\/user) url script-response-body https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/break/caiyun.js
 ^https:\/\/wrapper\.cyapi\.cn\/v1\/activity\? url echo-response application/json echo-response https://raw.githubusercontent.com/RuCu6/QuanX/main/Mocks/caiyun.json
-
+^https:\/\/starplucker\.cyapi\.cn\/v3\/operation\/features\? url reject
 #************************************#
 # 百度网盘，一刻相册 解锁部分功能
 # hostname = pan.baidu.com
