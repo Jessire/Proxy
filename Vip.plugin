@@ -28,11 +28,6 @@ http-request ^https?:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/?(.*?
 http-response ^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/iTunes.js, requires-body=true, tag=iTunes解锁系列
 
 #************************************#
-# Nicegram
-# hostname = restore-access.indream.app
-http-response ^https?:\/\/restore-access\.indream\.app\/restoreAccess script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/nicegram.js, requires-body=true, tag=Nicegram
-
-#************************************#
 
 # 夸克扫描王
 http-response ^https?:\/\/acs\.m\.taobao\.com\/gw\/mtop\.sm\.order\.service\.member\.getmemberinfo script-path=https://raw.githubusercontent.com/Guding88/Script/main/kuakesaomiaowang.js, requires-body=true, tag=夸克扫描王
@@ -100,4 +95,4 @@ http-response ^https:\/\/oxfordx\.cp\.com\.cn\/api\/pay\/apple_notify script-pat
 
 #************************************#
 [MITM]
-hostname = oxfordx.cp.com.cn, scibug.com,*.aliyundrive.com, *.alipan.com,*.cyapi.cn, *.caiyunapp.com, adx.sogaha.cn,restore-access.indream.app,spclient.wg.spotify.com,service.ilovepdf.com,*.xiuxiu.meitu.com, api.posters.meitu.com, api-*.meitu.com,*.xiangha.com,drive*.quark.cn,*.wps.cn,ssl-api.itranslateapp.com,buy.itunes.apple.com, api.revenuecat.com
+hostname = oxfordx.cp.com.cn, scibug.com,*.aliyundrive.com, *.alipan.com,*.cyapi.cn, *.caiyunapp.com, adx.sogaha.cn,spclient.wg.spotify.com,service.ilovepdf.com,*.xiuxiu.meitu.com, api.posters.meitu.com, api-*.meitu.com,*.xiangha.com,drive*.quark.cn,*.wps.cn,ssl-api.itranslateapp.com,buy.itunes.apple.com, api.revenuecat.com
