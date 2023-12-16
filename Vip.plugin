@@ -32,9 +32,12 @@ http-response ^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ script-path=ht
 
 
 # 彩云天气
-# hostname = *.cyapi.cn, *.caiyunapp.com, adx.sogaha.cn
+# hostname = biz.cyapi.cn, wrapper.cyapi.cn
+^https:\/\/biz\.cyapi\.cn\/p\/v1\/entries\? url reject-dict
 ^https:\/\/biz\.cyapi\.cn\/(p\/v1\/vip_info|v2\/user) url script-response-body https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/break/caiyun.js
-^https:\/\/starplucker\.cyapi\.cn\/v3\/operation\/features\? url reject
+^https:\/\/wrapper\.cyapi\.cn\/v1\/activity\? url script-response-body https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/break/caiyun.js
+^https:\/\/wrapper\.cyapi\.cn\/v1\/(nafp\/origin_images|satellite)\? url script-request-header https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/break/caiyun.js
+
 #************************************#
 # 百度网盘，一刻相册 解锁部分功能
 # hostname = pan.baidu.com
@@ -93,4 +96,4 @@ http-response ^https:\/\/oxfordx\.cp\.com\.cn\/api\/pay\/apple_notify script-pat
 
 #************************************#
 [MITM]
-hostname = oxfordx.cp.com.cn, scibug.com,*.aliyundrive.com, *.alipan.com,*.cyapi.cn, *.caiyunapp.com, adx.sogaha.cn,spclient.wg.spotify.com,service.ilovepdf.com,*.xiuxiu.meitu.com, api.posters.meitu.com, api-*.meitu.com,*.xiangha.com,drive*.quark.cn,*.wps.cn,ssl-api.itranslateapp.com,buy.itunes.apple.com, api.revenuecat.com
+hostname = oxfordx.cp.com.cn, scibug.com,*.aliyundrive.com, *.alipan.com,biz.cyapi.cn, wrapper.cyapi.cn,spclient.wg.spotify.com,service.ilovepdf.com,*.xiuxiu.meitu.com, api.posters.meitu.com, api-*.meitu.com,*.xiangha.com,drive*.quark.cn,*.wps.cn,ssl-api.itranslateapp.com,buy.itunes.apple.com, api.revenuecat.com
