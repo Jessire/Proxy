@@ -6,16 +6,6 @@
 
 # 使用方法：先开脚本再打开App，自动会生效，如果无效就关了重开或者按一下恢复购买，在还不行就卸载App重新安装！最后还不行的话就是脚本失效了！
 
-# 更新日期：2023-08-13
-
-# 已解锁App下载地址：https://too.st/chxm1023
-
-#=============UserScript=============#
-
-[URL Rewrite]
-# 牛津高阶词典-去除首页下方广告
-^https:\/\/oxadmin\.cp\.com\.cn\/api\/(hot\/index|advertise\/banner) - reject-dict
-
 [Script]
 # Revenuecat解锁系列
 # hostname = api.revenuecat.com
@@ -28,9 +18,6 @@ http-request ^https?:\/\/api\.revenuecat\.com\/.+\/(receipts$|subscribers\/?(.*?
 http-response ^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/iTunes.js, requires-body=true, tag=iTunes解锁系列
 
 #************************************#
-
-
-
 # 彩云天气
 # hostname = biz.cyapi.cn, wrapper.cyapi.cn
 ^https:\/\/biz\.cyapi\.cn\/p\/v1\/entries\? url reject-dict
@@ -70,25 +57,10 @@ http-response ^https?:\/\/((h5|api)\.xiuxiu|api-sub|api\.posters)\.meitu\.com\/.
 http-response ^https?:\/\/api.*\.xiangha\.com script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/caipu.js, requires-body=true, tag=菜谱大全系列
 
 #************************************#
-# 夸克
-# hostname = drive*.quark.cn
-http-response ^https?:\/\/drive.*\.quark\.cn\/.+\/clouddrive\/(member.+|distribute\/detail.+|capacity\/growth\/info) script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/kuake.js, requires-body=true, tag=夸克
-
-#************************************#
-# iTranslate 翻译
-# hostname = ssl-api.itranslateapp.com
-http-response ^https?:\/\/ssl-api\.itranslateapp\.com\/accounts\/.+\/(subscriptions\/verify|marketing\/consent\/status) script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/itranslate.js, requires-body=true, tag=iTranslate翻译
-
-#************************************#
 # WPS Office
 # hostname = *.wps.cn
 http-response ^https?:\/\/(vas|account|drive)\.wps\.cn\/(query\/api\/.+\/list_purchase_info|api\/(v\d\/spaces|users\/.+\/overview)) script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/WPS.js, requires-body=true, tag=WPS
 
 #************************************#
-# 牛津高阶词典第十版
-# hostname = oxfordx.cp.com.cn
-http-response ^https:\/\/oxfordx\.cp\.com\.cn\/api\/pay\/apple_notify script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/main/niujin10.js, requires-body=true, tag=牛津高阶词典
-
-#************************************#
 [MITM]
-hostname = oxfordx.cp.com.cn,*.aliyundrive.com, *.alipan.com,biz.cyapi.cn, wrapper.cyapi.cn,spclient.wg.spotify.com,service.ilovepdf.com,*.xiuxiu.meitu.com, api.posters.meitu.com, api-*.meitu.com,*.xiangha.com,drive*.quark.cn,*.wps.cn,ssl-api.itranslateapp.com,buy.itunes.apple.com, api.revenuecat.com
+hostname = *.aliyundrive.com, *.alipan.com,biz.cyapi.cn, wrapper.cyapi.cn,spclient.wg.spotify.com,service.ilovepdf.com,*.xiuxiu.meitu.com, api.posters.meitu.com, api-*.meitu.com,*.xiangha.com,*.wps.cn,buy.itunes.apple.com, api.revenuecat.com
