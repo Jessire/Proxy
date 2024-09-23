@@ -7,15 +7,8 @@
 #B站换肤
 ^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\? url script-response-body https://raw.githubusercontent.com/kokoryh/Script/master/js/bili-suit-diy.js
 #B站4K
-^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\? url script-response-body https://github.com/ddgksf2013/Scripts/raw/master/bilibili_json.js
-#粉笔(bug)
-^https:\/\/tiku\.fenbi\.com\/activity\/app\/launcher\? url script-response-body https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/fenbi.js
+^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\? url script-response-body https://raw.githubusercontent.com/Jessire/Proxy/refs/heads/master/bilibili_json.js
 #维基优化
 ^https://(\w*).(m.)?wikipedia.org/wiki url 302 https://www.wikiwand.com/$1
 #^https?:\/\/www\.wikiwand\.com\/(zh|zh-.*)\/(.*)$ url 302 https://www.wikiwand.com/zh-cn/$2
-# 招行掌上生活 (需卸载重装)
-#开屏广告 az1mbasecc.bas.cmbchina.com
-^https?:\/\/az1mbasecc\.bas\.cmbchina\.com\/Edge\/api\/mlife\.clientface\.clientservice\.api\.advertiseService\/preCacheAdvertiseSec url reject
-#设置栏目内广告 intellicc.bas.cmbchina.com
-^https?:\/\/intellicc\.bas\.cmbchina\.com\/Edge\/api\/mlife\.intelli\.render\.api\.render\/getDynamicDataSec url reject
-hostname = intellicc.bas.cmbchina.com, az1mbasecc.bas.cmbchina.com, event.uniqlo.cn, api.17kjs.com,*.wikipedia.org,*.wikiwand.com
+hostname = event.uniqlo.cn, api.17kjs.com,*.wikipedia.org,*.wikiwand.com
