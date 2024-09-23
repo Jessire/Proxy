@@ -1,7 +1,7 @@
 #!name = Telegram DC
 #!desc = 电报数据中心分流。
-#!author = RuCu6[https://github.com/RuCu6]
-#!date = 2024-04-29 23:55
+#!author = Jessire
+#!date = 2024-09-23 23:55
 
 [Rule]
 IP-ASN, 62014, 🇸🇬SG
