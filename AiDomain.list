@@ -1,5 +1,6 @@
 #@ https://github.com/szkane/ClashRuleSet/blob/main/Clash/Ruleset/AiDomain.list
 # 内容：OpenAi,claude,recraft,gemini,grok
+payload:
   # OpenAI
   - DOMAIN-KEYWORD,openai
   - DOMAIN-KEYWORD,chatgpt
