@@ -1,20 +1,9 @@
 payload:
   # Windows Update / 激活 / 驱动分发
-  - DOMAIN-SUFFIX,windowsupdate.com
-  - DOMAIN-SUFFIX,update.microsoft.com
-  - DOMAIN-SUFFIX,windows.com
-  - DOMAIN-SUFFIX,windows.net
-  - DOMAIN-SUFFIX,msftconnecttest.com
-  - DOMAIN-SUFFIX,msftncsi.com
-  - DOMAIN-SUFFIX,dl.delivery.mp.microsoft.com
   - DOMAIN-SUFFIX,download.windowsupdate.com
-  - DOMAIN-SUFFIX,wustat.windows.com
-  - DOMAIN-SUFFIX,ntservicepack.microsoft.com
-  - DOMAIN-SUFFIX,stats.microsoft.com
-  - DOMAIN-SUFFIX,windowsupdate.microsoft.com
-  - DOMAIN-SUFFIX,update.microsoft.com.nsatc.net
-  - DOMAIN-SUFFIX,fe2.update.microsoft.com
-  - DOMAIN-SUFFIX,fe3.delivery.mp.microsoft.com
-  - DOMAIN-SUFFIX,au.download.windowsupdate.com
+  - DOMAIN-SUFFIX,dl.delivery.mp.microsoft.com
   - DOMAIN-SUFFIX,tlu.dl.delivery.mp.microsoft.com
-  - DOMAIN-SUFFIX,tsfe.trafficshaping.dsp.mp.microsoft.com
+  - DOMAIN-SUFFIX,au.download.windowsupdate.com
+  - DOMAIN-SUFFIX,fe3.delivery.mp.microsoft.com
+  - DOMAIN-SUFFIX,download.microsoft.com
+
