@@ -18,7 +18,6 @@ payload:
   - DOMAIN-SUFFIX,chatgpt.com
 
   # Copilot
-  - DOMAIN-KEYWORD,bing
   - DOMAIN-KEYWORD,copilot
   - DOMAIN-KEYWORD,edgeassetservice
   - DOMAIN-SUFFIX,edgeservices.bing.com
