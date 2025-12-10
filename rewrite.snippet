@@ -2,13 +2,8 @@
 ^https:\/\/event\.uniqlo\.cn\/uniqlo_new_cms\/api\/welcome\/index url reject-dict
 ^https:\/\/event\.uniqlo\.cn\/uniqlo_new_cms\/api\/homefloatinglayer\/better url reject-dict
 ^https:\/\/event\.uniqlo\.cn\/uniqlo_new_cms\/api\/watch\/getButton url reject-dict
-#一起考教师
-^https:\/\/api\.17kjs\.com\/meta\/ads_targets url reject
+
 #B站换肤
 ^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\? url script-response-body https://raw.githubusercontent.com/kokoryh/Script/master/js/bili-suit-diy.js
-#B站4K
-^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\? url script-response-body https://raw.githubusercontent.com/Jessire/Proxy/refs/heads/master/bilibili_json.js
-#维基优化
-^https://(\w*).(m.)?wikipedia.org/wiki url 302 https://www.wikiwand.com/$1
-#^https?:\/\/www\.wikiwand\.com\/(zh|zh-.*)\/(.*)$ url 302 https://www.wikiwand.com/zh-cn/$2
-hostname = event.uniqlo.cn, api.17kjs.com,*.wikipedia.org,*.wikiwand.com
+
+hostname = event.uniqlo.cn
