@@ -1,9 +1,0 @@
-payload:
-  # Windows Update / 激活 / 驱动分发
-  - DOMAIN-SUFFIX,download.windowsupdate.com
-  - DOMAIN-SUFFIX,dl.delivery.mp.microsoft.com
-  - DOMAIN-SUFFIX,tlu.dl.delivery.mp.microsoft.com
-  - DOMAIN-SUFFIX,au.download.windowsupdate.com
-  - DOMAIN-SUFFIX,fe3.delivery.mp.microsoft.com
-  - DOMAIN-SUFFIX,download.microsoft.com
-
