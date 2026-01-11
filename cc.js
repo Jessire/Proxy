@@ -5,11 +5,10 @@
 
 [rewrite_local]
 # 1. 拦截配置请求 (捷径写入配置)
-^https:\/\/www\.youtube\.com\/api\/timedtextConf url script-request-body Sur2b_QX.js
+^https:\/\/www\.youtube\.com\/api\/timedtextConf url script-request-body https://raw.githubusercontent.com/Jessire/Proxy/refs/heads/master/cc.js
 
 # 2. 拦截字幕请求 (执行翻译)
-^https:\/\/www\.youtube\.com\/api\/timedtext\? url script-response-body Sur2b_QX.js
-
+^https:\/\/www\.youtube\.com\/api\/timedtext\? url script-response-body https://raw.githubusercontent.com/Jessire/Proxy/refs/heads/master/cc.js
 [mitm]
 hostname = www.youtube.com
 
