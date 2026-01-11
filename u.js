@@ -2,7 +2,7 @@
 =============================================================
 🤖 Quantumult X 配置指南 (仅供参考，无需复制到 JS 文件中)
 [rewrite_local]
-^https:\/\/www\.youtube\.com\/api\/timedtext\? url script-response-body 你的脚本地址.js
+^https:\/\/www\.youtube\.com\/api\/timedtext\? url script-response-body https://raw.githubusercontent.com/Jessire/Proxy/refs/heads/master/u.js
 [mitm]
 hostname = www.youtube.com
 =============================================================
