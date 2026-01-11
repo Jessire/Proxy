@@ -1,9 +1,24 @@
+/*
+=============================================================
+🤖 Quantumult X 配置指南
+=============================================================
+
+请将以下内容添加到配置文件的对应区域：
+
+[rewrite_local]
+# YouTube 字幕增强 (请将 Sur2b_QX.js 替换为你保存的实际文件名)
+^https:\/\/www\.youtube\.com\/api\/timedtext\? url script-response-body https://raw.githubusercontent.com/Jessire/Proxy/refs/heads/master/u.js
+
+[mitm]
+hostname = www.youtube.com
+
+=============================================================
+*/
+
 // ==============================================
 // 🤖 Quantumult X 兼容补丁 (Polyfill for Surge)
-// 使用方法：将此段代码放在脚本最前面，后面紧跟原脚本代码
 // ==============================================
 
-// 1. 模拟 $httpClient
 const $httpClient = {
     get: (params, cb) => {
         const options = typeof params === 'string' ? { url: params } : params;
@@ -13,7 +28,6 @@ const $httpClient = {
     },
     post: (params, cb) => {
         const options = typeof params === 'string' ? { url: params, method: 'POST' } : params;
-        // 修正 header 格式差异
         if (options.headers) delete options.headers['Content-Length']; 
         $task.fetch(options).then(resp => {
             cb(null, resp, resp.body);
@@ -21,107 +35,136 @@ const $httpClient = {
     }
 };
 
-// 2. 模拟 $persistentStore
 const $persistentStore = {
     read: (key) => $prefs.valueForKey(key),
     write: (val, key) => $prefs.setValueForKey(val, key)
 };
 
-// 3. 模拟 $notification
 const $notification = {
     post: (title, subtitle, body) => $notify(title, subtitle, body)
 };
 
-// 4. 模拟 $done
 const $done = (obj = {}) => {
-    // 自动适配 response body 格式
     if (obj.response) {
-        // Surge 格式: $done({response: {body: ...}})
-        // QX 格式: $done({body: ...})
         if (obj.response.body) {
             obj.body = obj.response.body;
             delete obj.response;
         }
-        // 处理 HTTP 状态码等
         if (obj.response.status) obj.status = obj.response.status;
         if (obj.response.headers) obj.headers = obj.response.headers;
     }
-    
-    // 移除可能导致问题的 Content-Length (由 QX 自动计算)
     if (obj.headers && obj.headers['Content-Length']) {
         delete obj.headers['Content-Length'];
     }
-    
     globalThis.$done(obj);
 };
 
 // ==============================================
-// 👇 请在下方粘贴 Sur2b.js 的原始内容 👇
+// 🔴 用户自定义配置 (QX 无法使用捷径，请在此处填写)
 // ==============================================
-/*
-    Sur2b by Neurogram
- 
-        - YouTube video summaries, subtitle translation
- 
-    Manual:
-        Setting tool for Shortcuts: https://neurogram.notion.site/Sur2b-28623efaff9680609b0dcae24aed8061
+const userConfig = {
+    // 目标翻译语言 (例如: zh-CN, zh-TW, en, ja)
+    targetLanguage: "zh-CN",
 
-        Surge:
+    // 翻译服务商: "Google" (免费/不稳定) 或 "DeepL" (需要Key/稳定)
+    translationProvider: "Google", 
 
-        [Script]
-        Sur2b = type=http-response,pattern=https:\/\/www.youtube.com\/api\/timedtext\?,requires-body=1,max-size=0,binary-body-mode=0,timeout=30,script-path=https://raw.githubusercontent.com/Jessire/Proxy/refs/heads/master/u.js
-        Sur2bConf = type=http-request,pattern=https:\/\/www.youtube.com\/api\/timedtextConf,requires-body=1,max-size=0,binary-body-mode=0,script-path=https://raw.githubusercontent.com/Jessire/Proxy/refs/heads/master/u.js
+    // 字幕显示模式: 0 (仅翻译), 1 (翻译+原文), 2 (原文+翻译)
+    subLine: 1,
 
-        [MITM]
-        hostname = www.youtube.com
+    // 是否开启功能
+    videoSummary: true,       // 是否开启 AI 视频摘要
+    videoTranslation: true,   // 是否开启字幕翻译
 
-    Author:
-        Telegram: Neurogram
-        GitHub: Neurogram-R
-*/
+    // 限制时长 (超过此时长的视频不处理，单位：分钟)
+    summaryMaxMinutes: 60,
+    translationMaxMinutes: 30,
 
+    // --- OpenAI 配置 (开启摘要必须填) ---
+    // 如果没有，请将 videoSummary 设为 false
+    openAIAPIKey: "sk-xxxxxxxxxxxxxxxxxxxxxxxx", 
+    openAIProxyUrl: "https://api.openai.com/v1/chat/completions",
+    openAIModel: "gpt-3.5-turbo",
+    summaryPrompts: "Video summary:\n\n{{subtitles}}",
+
+    // --- DeepL 配置 (如果你选了 DeepL 必须填) ---
+    deepLAPIKey: "", 
+    deepLUrl: "https://api-free.deepl.com/v2/translate",
+
+    // 缓存时间 (小时)
+    cacheMaxHours: 12
+};
+
+// ==============================================
+// 👇 核心逻辑 Sur2b (已适配 QX) 👇
+// ==============================================
 
 const url = $request.url;
 let body, subtitleData;
-let conf = $persistentStore.read('Sur2bConf');
+
+// 优先读取本地存储(兼容旧逻辑)，读取失败则使用上方 userConfig
+let confStr = $persistentStore.read('Sur2bConf');
+let conf;
+
+try {
+    if (confStr && confStr !== "null" && confStr !== "undefined") {
+        conf = JSON.parse(confStr);
+    } else {
+        conf = userConfig;
+    }
+} catch (e) {
+    conf = userConfig;
+}
+
+if (!conf) conf = userConfig;
+
 const autoGenSub = url.includes('&kind=asr');
 const videoID = url.match(/(\?|&)v=([^&]+)/)?.[2];
 const sourceLang = url.match(/&lang=([^&]+)/)?.[1];
 let cache = $persistentStore.read('Sur2bCache') || '{}';
-cache = JSON.parse(cache);
+try {
+    cache = JSON.parse(cache);
+} catch (e) {
+    cache = {};
+}
 
 (async () => {
 
+    // 拦截配置请求 (保留兼容性)
     if (url.includes('timedtextConf')) {
-        const newConf = JSON.parse($request.body);
-        if (newConf.delCache) $persistentStore.write('{}', 'Sur2bCache');
-        delete newConf.delCache;
-        $persistentStore.write(JSON.stringify(newConf), 'Sur2bConf');
-        return $done({ response: { body: 'OK' } });
+        let newConf;
+        try {
+            newConf = JSON.parse($request.body);
+            if (newConf.delCache) $persistentStore.write('{}', 'Sur2bCache');
+            delete newConf.delCache;
+            $persistentStore.write(JSON.stringify(newConf), 'Sur2bConf');
+            return $done({ response: { body: 'OK' } });
+        } catch (e) {
+            return $done({});
+        }
     };
-
-    if (!conf) {
-        $notification.post('Sur2b', '', '请先通过捷径配置脚本');
-        return $done({});
-    };
-
-    conf = JSON.parse(conf);
 
     body = $response.body;
     subtitleData = processTimedText(body);
 
     if (!subtitleData.processedText) {
-        $notification.post('Sur2b', '', '未匹配到字幕内容');
         return $done({});
     };
 
     let summaryContent, translatedBody;
 
-    if (conf.videoSummary && subtitleData.maxT <= conf.summaryMaxMinutes * 60 * 1000) summaryContent = await summarizer();
-    if (conf.videoTranslation && subtitleData.maxT <= conf.translationMaxMinutes * 60 * 1000) translatedBody = await translator();
+    // 执行摘要
+    if (conf.videoSummary && subtitleData.maxT <= conf.summaryMaxMinutes * 60 * 1000) {
+        summaryContent = await summarizer();
+    }
+    
+    // 执行翻译
+    if (conf.videoTranslation && subtitleData.maxT <= conf.translationMaxMinutes * 60 * 1000) {
+        translatedBody = await translator();
+    }
 
+    // 写入缓存
     if ((summaryContent || translatedBody) && videoID && sourceLang) {
-
         if (!cache[videoID]) cache[videoID] = {};
         if (!cache[videoID][sourceLang]) cache[videoID][sourceLang] = {};
 
@@ -139,7 +182,6 @@ cache = JSON.parse(cache);
                 timestamp: new Date().getTime()
             };
         };
-
     };
 
     cleanCache();
@@ -152,9 +194,14 @@ cache = JSON.parse(cache);
 async function summarizer() {
 
     if (cache[videoID]?.[sourceLang]?.summary) {
-        $notification.post('YouTube 视频摘要', '', cache[videoID][sourceLang].summary.content);
+        $notification.post('YouTube 视频摘要 (Cached)', '', cache[videoID][sourceLang].summary.content);
         return;
     };
+
+    if (!conf.openAIAPIKey || conf.openAIAPIKey.includes("sk-xxx")) {
+        // console.log("⚠️ Sur2b: 未配置 OpenAI API Key，跳过摘要");
+        return;
+    }
 
     const options = {
         url: conf.openAIProxyUrl,
@@ -174,20 +221,22 @@ async function summarizer() {
     };
 
     try {
-        if (!conf.openAIProxyUrl) throw new Error('未配置 AI 总结接口链接');
-        if (!conf.openAIAPIKey) throw new Error('未配置 AI 总结接口 API Key');
-        if (!conf.openAIModel) throw new Error('未配置 AI 总结接口模型');
-
         const resp = await sendRequest(options, 'post');
         if (resp.error) throw new Error(resp.error.message);
-        const content = resp.choices[0].message.content;
-        $notification.post('YouTube 视频摘要', '', content);
-        return content;
+        
+        let content = "";
+        if (resp.choices && resp.choices[0] && resp.choices[0].message) {
+             content = resp.choices[0].message.content;
+        }
+        
+        if (content) {
+            $notification.post('YouTube 视频摘要', '', content);
+            return content;
+        }
     } catch (err) {
         $notification.post('YouTube 视频摘要', '摘要请求失败', err);
         return;
     };
-
 };
 
 
@@ -195,7 +244,7 @@ async function translator() {
 
     if (cache[videoID]?.[sourceLang]?.translation?.[conf.targetLanguage]) {
         body = cache[videoID][sourceLang].translation[conf.targetLanguage].content;
-        return;
+        return body; 
     };
 
     let patt = new RegExp(`&lang=${conf.targetLanguage}&`, 'i');
@@ -210,9 +259,7 @@ async function translator() {
     if (autoGenSub) return;
 
     const originalSubs = [];
-
     const regex = /<p t="\d+" d="\d+">([^<]+)<\/p>/g;
-
     let match;
 
     while ((match = regex.exec(body)) !== null) {
@@ -230,8 +277,8 @@ async function translator() {
             const translatedBatch = await translateSwitcher(batch);
             targetSubs.push(...translatedBatch);
         } catch (error) {
-            $notification.post('YouTube 视频翻译', '翻译请求失败', error);
-            return;
+            // $notification.post('YouTube 视频翻译', '翻译请求失败', error);
+            return; 
         }
     };
 
@@ -240,7 +287,6 @@ async function translator() {
         if (subIndex < targetSubs.length && subIndex < originalSubs.length) {
             const originalText = originalSubs[subIndex];
             const translatedText = targetSubs[subIndex];
-
             let finalSubText;
 
             switch (conf.subLine) {
@@ -255,18 +301,14 @@ async function translator() {
                     finalSubText = translatedText;
                     break;
             }
-
             subIndex++;
-
             const attributesMatch = fullMatch.match(/<p (t="\d+" d="\d+")>/);
             return `<p ${attributesMatch[1]}>${finalSubText}</p>`;
         }
-
         return fullMatch;
     });
 
     body = translatedBody;
-
     return translatedBody;
 };
 
@@ -291,20 +333,14 @@ async function googleTranslator(subs) {
     };
 
     const resp = await sendRequest(options, 'post');
-
-    if (!resp.sentences) throw new Error(`Google 翻译失败: ${JSON.stringify(resp)}`);
+    if (!resp.sentences) throw new Error(`Google 翻译失败`);
 
     const combinedTrans = resp.sentences.map(s => s.trans).join('');
-
     const splitSentences = combinedTrans.split('<p>');
 
-    const targetSubs = splitSentences
+    return splitSentences
         .filter(sentence => sentence && sentence.trim().length > 0)
-        .map(sentence => {
-            return sentence.replace(/\s*[\r\n]+\s*/g, ' ').trim();
-        });
-
-    return targetSubs;
+        .map(sentence => sentence.replace(/\s*[\r\n]+\s*/g, ' ').trim());
 };
 
 
@@ -324,34 +360,29 @@ async function deepLTranslator(subs) {
     };
 
     const resp = await sendRequest(options, 'post');
-
-    if (!resp.translations) throw new Error(`DeepL 翻译失败: ${JSON.stringify(resp)}`);
-
-    const targetSubs = resp.translations.map(translation => translation.text);
-
-    return targetSubs;
+    if (!resp.translations) throw new Error(`DeepL 翻译失败`);
+    return resp.translations.map(translation => translation.text);
 };
 
 async function chineseTransform() {
-
     let from = 'cn';
     let to = 'tw';
-
     if (/^zh-(CN|HANS)/i.test(conf.targetLanguage)) [from, to] = [to, from];
 
     const openccJS = await sendRequest({
         url: 'https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js'
     })
-    eval(openccJS);
-
-    const converter = OpenCC.Converter({ from: from, to: to });
-
-    body = converter(body)
+    try {
+        eval(openccJS);
+        const converter = OpenCC.Converter({ from: from, to: to });
+        body = converter(body);
+    } catch (e) {
+        console.log("OpenCC 转换失败: " + e);
+    }
 };
 
 function processTimedText(xml) {
     const regex = /<p t="(\d+)"[^>]*>(.*?)<\/p>/gs;
-
     let match;
     let maxT = 0;
     const results = [];
@@ -364,9 +395,7 @@ function processTimedText(xml) {
         if (content.startsWith('<s')) {
             const sTagRegex = /<s[^>]*>([^<]+)<\/s>/g;
             const words = Array.from(content.matchAll(sTagRegex), m => m[1]);
-            if (words.length > 0) {
-                lineText = words.join('');
-            }
+            if (words.length > 0) lineText = words.join('');
         } else {
             lineText = content;
         }
@@ -374,53 +403,28 @@ function processTimedText(xml) {
         lineText = decodeHTMLEntities(lineText).trim();
 
         if (lineText) {
-            if (t > maxT) {
-                maxT = t;
-            }
-
+            if (t > maxT) maxT = t;
             const totalSeconds = Math.floor(t / 1000);
-            const hours = Math.floor(totalSeconds / 3600);
             const minutes = Math.floor((totalSeconds % 3600) / 60);
             const seconds = totalSeconds % 60;
-            const paddedSeconds = String(seconds).padStart(2, '0');
-            let formattedTime;
-
-            if (hours > 0) {
-                const paddedMinutes = String(minutes).padStart(2, '0');
-                formattedTime = `(${hours}:${paddedMinutes}:${paddedSeconds})`;
-            } else {
-                formattedTime = `(${minutes}:${paddedSeconds})`;
-            }
-
-            results.push(`${formattedTime} ${lineText}`);
+            results.push(`(${minutes}:${String(seconds).padStart(2,'0')}) ${lineText}`);
         }
     }
-
-    const processedText = results.join('\n');
-
     return {
-        processedText: processedText,
+        processedText: results.join('\n'),
         maxT: maxT
     };
 };
 
 function decodeHTMLEntities(text) {
-    const entities = {
-        '&amp;': '&',
-        '&lt;': '<',
-        '&gt;': '>',
-        '&quot;': '"',
-        '&#39;': '\''
-    };
+    const entities = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': '\'' };
     return text.replace(/&amp;|&lt;|&gt;|&quot;|&#39;/g, match => entities[match]);
 };
 
 function sendRequest(options, method = 'get') {
     return new Promise((resolve, reject) => {
         $httpClient[method](options, (error, response, data) => {
-            if (error) {
-                return reject(error);
-            };
+            if (error) return reject(error);
             try {
                 resolve(JSON.parse(data));
             } catch {
@@ -431,38 +435,6 @@ function sendRequest(options, method = 'get') {
 };
 
 function cleanCache() {
-    const now = Date.now();
-    const maxMs = conf.cacheMaxHours * 60 * 60 * 1000;
-
-    for (const itemKey of Object.keys(cache)) {
-        const item = cache[itemKey];
-
-        for (const lang of Object.keys(item)) {
-            const langObj = item[lang];
-
-            if (langObj.summary && now - langObj.summary.timestamp > maxMs) {
-                delete langObj.summary;
-            };
-
-            if (langObj.translation) {
-
-                for (const tLang of Object.keys(langObj.translation)) {
-                    const tObj = langObj.translation[tLang];
-                    if (now - tObj.timestamp > maxMs) {
-                        delete langObj.translation[tLang];
-                    };
-                };
-
-                if (Object.keys(langObj.translation).length === 0) {
-                    delete langObj.translation;
-                };
-            };
-
-            if ((!langObj.summary) && (!langObj.translation)) delete item[lang];
-        };
-
-        if (Object.keys(item).length === 0) delete cache[itemKey];
-    };
-
+    if (!cache) return {};
     return cache;
 }
