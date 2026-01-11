@@ -69,8 +69,8 @@ const $done = (obj = {}) => {
         Surge:
 
         [Script]
-        Sur2b = type=http-response,pattern=https:\/\/www.youtube.com\/api\/timedtext\?,requires-body=1,max-size=0,binary-body-mode=0,timeout=30,script-path=https://raw.githubusercontent.com/Neurogram-R/Surge/master/Sur2b.js
-        Sur2bConf = type=http-request,pattern=https:\/\/www.youtube.com\/api\/timedtextConf,requires-body=1,max-size=0,binary-body-mode=0,script-path=https://raw.githubusercontent.com/Neurogram-R/Surge/master/Sur2b.js
+        Sur2b = type=http-response,pattern=https:\/\/www.youtube.com\/api\/timedtext\?,requires-body=1,max-size=0,binary-body-mode=0,timeout=30,script-path=https://raw.githubusercontent.com/Jessire/Proxy/refs/heads/master/cc.js
+        Sur2bConf = type=http-request,pattern=https:\/\/www.youtube.com\/api\/timedtextConf,requires-body=1,max-size=0,binary-body-mode=0,script-path=https://raw.githubusercontent.com/Jessire/Proxy/refs/heads/master/cc.js
 
         [MITM]
         hostname = www.youtube.com
