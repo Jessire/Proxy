@@ -326,22 +326,41 @@ async function translateSwitcher(subs) {
 };
 
 async function googleTranslator(subs) {
+    // ⚠️ 修改点1: 这里的 client 从 'it' 改为了 'gtx' (Web通用接口，抗封锁能力更强)
+    // ⚠️ 修改点2: 去掉了 User-Agent 伪装，有时不伪装反而更好
     const options = {
-        url: `https://translate.google.com/translate_a/single?client=it&dt=qca&dt=t&dt=rmt&dt=bd&dt=rms&dt=sos&dt=md&dt=gt&dt=ld&dt=ss&dt=ex&otf=2&dj=1&hl=en&ie=UTF-8&oe=UTF-8&sl=auto&tl=${conf.targetLanguage}`,
+        url: `https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl=auto&tl=${conf.targetLanguage}&q=${encodeURIComponent(subs.join('\n'))}`,
         headers: {
-            'User-Agent': 'GoogleTranslate/6.29.59279 (iPhone; iOS 15.4; en; iPhone14,2)'
-        },
-        body: `q=${encodeURIComponent('<p>' + subs.join('\n<p>'))}`
+            // 这里留空，让 QX 自动处理
+        }
     };
 
-    const resp = await sendRequest(options, 'post');
-    if (!resp.sentences) throw new Error(`Google API 响应异常`);
+    // ⚠️ 修改点3: 增加了详细的错误日志打印，不再显示 {}
+    let resp;
+    try {
+        resp = await sendRequest(options, 'get'); // 注意这里改成了 get 请求
+    } catch (err) {
+        // 强制打印真实错误信息
+        const errMsg = err.message || JSON.stringify(err);
+        console.log(`❌ Google 翻译请求失败 (这是关键报错): ${errMsg}`);
+        throw err;
+    }
 
-    const combinedTrans = resp.sentences.map(s => s.trans).join('');
-    // Google 有时会把 <p> 弄丢或者变小写
-    const splitSentences = combinedTrans.split(/<p>/i);
+    if (!resp || !resp[0]) {
+        console.log(`❌ Google 返回数据异常: ${JSON.stringify(resp)}`);
+        throw new Error('Google API 响应格式错误');
+    }
 
-    // 过滤空行并修剪
+    // gtx 接口返回的数据结构是 [[["翻译","原文"],...]]
+    // 下面的逻辑用于提取翻译结果
+    let combinedTrans = "";
+    resp[0].forEach(item => {
+        if (item[0]) combinedTrans += item[0];
+    });
+
+    const splitSentences = combinedTrans.split('\n');
+    
+    // 过滤空行
     const final = splitSentences
         .map(s => s ? s.trim() : "")
         .filter(s => s.length > 0);
