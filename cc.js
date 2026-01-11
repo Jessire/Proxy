@@ -34,56 +34,48 @@ const $notification = {
 
 // 4. 模拟 $done
 const $done = (obj = {}) => {
-    // 自动适配 response body 格式
     if (obj.response) {
-        // Surge 格式: $done({response: {body: ...}})
-        // QX 格式: $done({body: ...})
         if (obj.response.body) {
             obj.body = obj.response.body;
             delete obj.response;
         }
-        // 处理 HTTP 状态码等
         if (obj.response.status) obj.status = obj.response.status;
         if (obj.response.headers) obj.headers = obj.response.headers;
     }
-    
-    // 移除可能导致问题的 Content-Length (由 QX 自动计算)
     if (obj.headers && obj.headers['Content-Length']) {
         delete obj.headers['Content-Length'];
     }
-    
     globalThis.$done(obj);
 };
 
 // ==============================================
-// 👇 请在下方粘贴 Sur2b.js 的原始内容 👇
+// 👇 Sur2b.js 原始内容 (已修改为硬编码配置) 👇
 // ==============================================
+
 /*
-    Sur2b by Neurogram
- 
-        - YouTube video summaries, subtitle translation
- 
-    Manual:
-        Setting tool for Shortcuts: https://neurogram.notion.site/Sur2b-28623efaff9680609b0dcae24aed8061
-
-        Surge:
-
-        [Script]
-        Sur2b = type=http-response,pattern=https:\/\/www.youtube.com\/api\/timedtext\?,requires-body=1,max-size=0,binary-body-mode=0,timeout=30,script-path=https://raw.githubusercontent.com/Jessire/Proxy/refs/heads/master/cc.js
-        Sur2bConf = type=http-request,pattern=https:\/\/www.youtube.com\/api\/timedtextConf,requires-body=1,max-size=0,binary-body-mode=0,script-path=https://raw.githubusercontent.com/Jessire/Proxy/refs/heads/master/cc.js
-
-        [MITM]
-        hostname = www.youtube.com
-
-    Author:
-        Telegram: Neurogram
-        GitHub: Neurogram-R
+    Sur2b by Neurogram (Modified for QX Hardcode)
 */
-
 
 const url = $request.url;
 let body, subtitleData;
-let conf = $persistentStore.read('Sur2bConf');
+
+// 【在此修改配置】 👇👇👇
+let conf = {
+    targetLanguage: 'zh-CN',    // 目标语言: zh-CN (简体), zh-TW (繁体)
+    subLine: 1,                 // 模式: 1 (翻译+原声), 2 (原声+翻译), 0 (仅翻译)
+    videoTranslation: true,     // 开启视频翻译
+    translationProvider: 'Google', // 翻译引擎: Google 或 DeepL
+    
+    // 以下为默认设置，通常无需修改
+    videoSummary: false,        // 视频摘要(需要key, 这里默认关掉)
+    cacheMaxHours: 12,          // 缓存时间
+    translationMaxMinutes: 120, // 超过多少分钟不翻译
+    openAIAPIKey: '',           // 如果要用摘要需填 Key
+    openAIModel: 'gpt-3.5-turbo',
+    deepLAPIKey: ''             // 如果用 DeepL 需填 Key
+};
+// 👆👆👆
+
 const autoGenSub = url.includes('&kind=asr');
 const videoID = url.match(/(\?|&)v=([^&]+)/)?.[2];
 const sourceLang = url.match(/&lang=([^&]+)/)?.[1];
@@ -92,26 +84,15 @@ cache = JSON.parse(cache);
 
 (async () => {
 
-    if (url.includes('timedtextConf')) {
-        const newConf = JSON.parse($request.body);
-        if (newConf.delCache) $persistentStore.write('{}', 'Sur2bCache');
-        delete newConf.delCache;
-        $persistentStore.write(JSON.stringify(newConf), 'Sur2bConf');
-        return $done({ response: { body: 'OK' } });
-    };
-
-    if (!conf) {
-        $notification.post('Sur2b', '', '请先通过捷径配置脚本');
-        return $done({});
-    };
-
-    conf = JSON.parse(conf);
+    // 移除了配置更新逻辑，因为我们是写死的
+    // 移除了 conf 检查逻辑
 
     body = $response.body;
     subtitleData = processTimedText(body);
 
     if (!subtitleData.processedText) {
-        $notification.post('Sur2b', '', '未匹配到字幕内容');
+        // 如果未匹配到字幕，安静退出，不弹窗打扰
+        // $notification.post('Sur2b', '', '未匹配到字幕内容'); 
         return $done({});
     };
 
