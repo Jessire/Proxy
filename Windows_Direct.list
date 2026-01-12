@@ -1,6 +1,6 @@
 payload:
 # Microsoft Rewards 核心直连
-  - DOMAIN-keword,rewards,DIRECT
+  - DOMAIN-keyword,rewards,DIRECT
   - DOMAIN,edgeservices.bing.com,DIRECT  # Edge侧边栏任务
   - DOMAIN-SUFFIX,bing.com,DIRECT        # 搜索赚分必须直连
   - DOMAIN,login.live.com,DIRECT         # 登录校验
