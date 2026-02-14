@@ -58,10 +58,8 @@ if (url.includes("/x/resource/show/tab/v2")) {
               if (item?.items?.length > 0) {
                 let newItems = [];
                 for (let i of item.items) {
-                  if (/user_center\/feedback/g.test(i?.uri)) {
-                    newItems.push(i); // 联系客服
-                  } else if (/user_center\/setting/g.test(i?.uri)) {
-                    newItems.push(i); // 设置
+                 if (/user_center\/setting/g.test(i?.uri)) {
+                     newItems.push(i); // 仅保留设置
                   } else {
                     continue;
                   }
