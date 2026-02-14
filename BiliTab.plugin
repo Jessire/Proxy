@@ -1,2 +1,12 @@
+#!name=Bilibili 精简
+#!desc=精简“我的”页面（保留设置，移除客服）及首页顶部标签。
+#!author=Jessire
+#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bilibili.png
+#!date=2026-02-14
+
+[Script]
+# 精简我的页面
 http-response ^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine script-path=https://raw.githubusercontent.com/Jessire/Proxy/refs/heads/master/bili.js, requires-body=true, timeout=20, tag=精简我的页面
+
+# 精简首页顶部标签
 http-response ^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\? script-path=https://raw.githubusercontent.com/Jessire/Proxy/refs/heads/master/bili.js, requires-body=true, timeout=20, tag=精简首页顶部标签
