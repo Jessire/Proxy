@@ -1,13 +1,74 @@
 payload:
-# Microsoft Rewards 核心直连
-  - DOMAIN-keyword,rewards,DIRECT
-  - DOMAIN,edgeservices.bing.com,DIRECT  # Edge侧边栏任务
-  - DOMAIN-SUFFIX,bing.com,DIRECT        # 搜索赚分必须直连
-  - DOMAIN,login.live.com,DIRECT         # 登录校验
-  - DOMAIN,account.live.com,DIRECT
-# Windows Update / 激活 / 驱动分发
-  - DOMAIN-SUFFIX,delivery.mp.microsoft.com,DIRECT  # 涵盖 dl, tlu, fe3 等所有补丁分发
-  - DOMAIN-SUFFIX,windowsupdate.com,DIRECT         # 涵盖所有下载、自动更新
-  - DOMAIN-SUFFIX,windowsupdate.microsoft.com,DIRECT # 更新检测与授权
-  - DOMAIN,download.microsoft.com,DIRECT           # 微软官方工具、驱动下载
+# Microsoft Rewards / Bing
+  - DOMAIN-KEYWORD,rewards
+  - DOMAIN,edgeservices.bing.com
+  - DOMAIN-SUFFIX,bing.com
+  - DOMAIN,prod.rewardsplatform.microsoft.com
 
+# Microsoft account / sign-in
+  - DOMAIN,login.live.com
+  - DOMAIN,account.live.com
+  - DOMAIN,login.microsoft.com
+  - DOMAIN,login.microsoftonline.com
+  - DOMAIN,login.windows.net
+  - DOMAIN,logincdn.msauth.net
+  - DOMAIN,graph.microsoft.com
+
+# Windows connectivity check
+  - DOMAIN-SUFFIX,msftconnecttest.com
+  - DOMAIN-SUFFIX,msftncsi.com
+
+# Windows Update / Delivery Optimization / Defender
+  - DOMAIN,ctldl.windowsupdate.com
+  - DOMAIN,download.microsoft.com
+  - DOMAIN-SUFFIX,windowsupdate.com
+  - DOMAIN-SUFFIX,windowsupdate.microsoft.com
+  - DOMAIN-SUFFIX,update.microsoft.com
+  - DOMAIN-SUFFIX,delivery.mp.microsoft.com
+  - DOMAIN-SUFFIX,dl.delivery.mp.microsoft.com
+  - DOMAIN-SUFFIX,prod.do.dsp.mp.microsoft.com
+  - DOMAIN,definitionupdates.microsoft.com
+
+# Microsoft Edge / SmartScreen
+  - DOMAIN,edge.microsoft.com
+  - DOMAIN,msedge.api.cdp.microsoft.com
+  - DOMAIN,config.edge.skype.com
+  - DOMAIN-SUFFIX,msedge.net
+  - DOMAIN-SUFFIX,cloudmessaging.edge.microsoft.com
+  - DOMAIN-SUFFIX,smartscreen.microsoft.com
+  - DOMAIN-SUFFIX,smartscreen-prod.microsoft.com
+  - DOMAIN-SUFFIX,urs.microsoft.com
+  - DOMAIN-SUFFIX,microsoftedge.com
+
+# Microsoft Store / winget / licensing
+  - DOMAIN,licensing.mp.microsoft.com
+  - DOMAIN,storeedgefd.dsx.mp.microsoft.com
+  - DOMAIN,pti.store.microsoft.com
+  - DOMAIN,cs.dds.microsoft.com
+  - DOMAIN-SUFFIX,displaycatalog.mp.microsoft.com
+  - DOMAIN-SUFFIX,onestore.ms
+  - DOMAIN-SUFFIX,s-microsoft.com
+
+# Office / OneDrive
+  - DOMAIN,substrate.office.com
+  - DOMAIN,ecs.office.com
+  - DOMAIN,officeclient.microsoft.com
+  - DOMAIN,consent.config.office.com
+  - DOMAIN,odc.officeapps.live.com
+  - DOMAIN-SUFFIX,office.com
+  - DOMAIN-SUFFIX,office.net
+  - DOMAIN-SUFFIX,office365.com
+  - DOMAIN-SUFFIX,officeapps.live.com
+  - DOMAIN-SUFFIX,onedrive.com
+  - DOMAIN-SUFFIX,onedrive.net
+  - DOMAIN-SUFFIX,1drv.ms
+  - DOMAIN-SUFFIX,sharepoint.com
+  - DOMAIN-SUFFIX,sharepointonline.com
+
+# Developer tools
+  - DOMAIN,marketplace.visualstudio.com
+  - DOMAIN,update.code.visualstudio.com
+  - DOMAIN-SUFFIX,vscode-cdn.net
+  - DOMAIN-SUFFIX,visualstudio.com
+  - DOMAIN-SUFFIX,powershellgallery.com
+  - DOMAIN-SUFFIX,nuget.org
