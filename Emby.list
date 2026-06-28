@@ -1,0 +1,5 @@
+PROCESS-NAME-REGEX,(?i)^HillsLite(\.exe)?$
+DOMAIN-KEYWORD,emby
+DOMAIN-KEYWORD,emos
+DOMAIN-KEYWORD,odysseyplus
+DOMAIN-SUFFIX,shrekmedia.org
