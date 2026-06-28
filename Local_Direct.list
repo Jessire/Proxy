@@ -1,7 +1,6 @@
 payload:
 # Local apps
   - PROCESS-NAME,Hyperdown.exe
-  - PROCESS-NAME,HillsLite.exe
   - PROCESS-NAME,Weixin.exe
   - PROCESS-NAME,WeChatAppEx.exe
 
