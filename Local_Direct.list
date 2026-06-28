@@ -1,0 +1,25 @@
+payload:
+# Local apps
+  - PROCESS-NAME,Hyperdown.exe
+  - PROCESS-NAME,HillsLite.exe
+  - PROCESS-NAME,Weixin.exe
+  - PROCESS-NAME,WeChatAppEx.exe
+
+# Fixed direct IP
+  - IP-CIDR,47.246.23.200/32
+
+# Steam download CDN
+  - DOMAIN,steamcdn-a.akamaihd.net
+  - DOMAIN,dl.steam.clngaa.com
+  - DOMAIN,dl.steam.ksyna.com
+  - DOMAIN,st.dl.bscstorage.net
+  - DOMAIN,st.dl.eccdnx.com
+  - DOMAIN,st.dl.pinyuncloud.com
+  - DOMAIN,steampipe.steamcontent.tnkjmec.com
+  - DOMAIN,steampowered.com.8686c.com
+  - DOMAIN,steamstatic.com.8686c.com
+  - DOMAIN,xz.pphimalayanrt.com
+  - DOMAIN-SUFFIX,steamcontent.com
+  - DOMAIN-SUFFIX,steamserver.net
+  - DOMAIN-SUFFIX,steamchina.com
+  - DOMAIN-SUFFIX,cm.steampowered.com
